@@ -1,0 +1,70 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first">
+            <h4 style="background: #da0812; padding: 20px; color: #fff;">
+                {{actionType === 'insert' ? 'Criação de usuário' : 'Atualização de usuário'}}
+            </h4>
+        </div>
+
+        <!-- Login Form -->
+        <form [formGroup]="userFormGroup" (ngSubmit)="insertOrUpdateUser()">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="name" placeholder="Nome" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="email" class="fadeIn second" formControlName="email" placeholder="Email" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="login" placeholder="Login" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="cpf" placeholder="CPF" required>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="phoneNumber" placeholder="Número do telefone" style="margin-top: 5px; margin-bottom: 10px;" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="birthDate" placeholder="Data de nascimento" style="margin-top: 5px; margin-bottom: 10px;" required>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="motherName" placeholder="Nome da mãe" style="margin-top: 5px; margin-bottom: 10px;" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="fadeIn second" formControlName="status" placeholder="Status do Usuário" style="margin-top: 5px; margin-bottom: 10px;" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="password" class="fadeIn second" formControlName="password" placeholder="Senha" style="margin-top: 5px; margin-bottom: 10px;" required>
+
+                    <div>
+                        <small style="opacity: 0.5;">{{userFormGroup?.get('password')?.value}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding: 0px 10px">
+                <div class="col-md-12">
+                    <button class="btn btn-success btn-lg btn-block fadeIn third" type="submit" style="margin-top: 30px; margin-bottom: 10px; width: 100%;" [disabled]="submittingForm">Salvar</button>
+                </div>
+            </div>
+
+            <div *ngIf="(userFormGroup?.invalid || errorMessage) && formSubmitted" style="margin-bottom: 10px; opacity: 0.5;">
+                {{errorMessage}}
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="card card-default">    
+    <div class="content-heading">    
+        <h3 style="margin-top: 30px; margin-left: 20px">Usuários Cadastrados</h3>    
+    </div>    
+    <div class="card-body table-responsive">    
+        <ngx-datatable
+            class='material'
+            [columnMode]="'force'"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [externalPaging]="true"
+            [loadingIndicator]="usersPage.loading"
+            [rows]='usersPage.rows'
+            [count]="usersPage.totalElements"
+            [offset]="usersPage.pageNumber"
+            [limit]="usersPage.size"
+            (page)="getUsers($event)"
+        >
+            <ngx-datatable-column name="name" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Nome
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="login" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Login
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="email" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Email
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="phoneNumber" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Telefone
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="cpf" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    CPF
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="birthDate" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Data de nascimento
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="motherName" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Nome da mãe
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="status" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Status
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>    
+    </div>    
+</div>    

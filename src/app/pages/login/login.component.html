@@ -1,0 +1,30 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first">
+            <h4 style="background: #da0812; padding: 20px; color: #fff;">Acesso ao FCx Labs</h4>
+        </div>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginFormGroup" (ngSubmit)="doLogin()">
+            <input type="text" class="fadeIn second" formControlName="login" placeholder="Login" style="margin-top: 30px; margin-bottom: 5px;">
+            
+            <input type="password" class="fadeIn third" formControlName="password" placeholder="Senha" style="margin-top: 5px; margin-bottom: 10px;" required>
+
+            <div>
+                <small style="opacity: 0.5;">{{loginFormGroup?.get('password')?.value}}</small>
+            </div>
+
+            <button class="btn btn-success btn-lg btn-block fadeIn fourth" type="submit" style="margin-top: 30px; margin-bottom: 10px;" [disabled]="submittingForm">Entrar</button>
+
+            <div *ngIf="(loginFormGroup?.invalid || loginErrorMessage) && formSubmitted" style="margin-bottom: 10px; opacity: 0.5;">
+                {{loginErrorMessage}}
+            </div>
+        </form>
+    
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" routerLink="/password/forgot">Esqueceu a sua senha?</a>
+        </div>
+  
+    </div>
+</div>
