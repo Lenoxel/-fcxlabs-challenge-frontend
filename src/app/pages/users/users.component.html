@@ -1,8 +1,53 @@
-<div class="card card-default">    
-    <div class="content-heading">    
-        <h3 style="margin-top: 30px; margin-left: 20px">Usuários Cadastrados</h3>    
-    </div>    
-    <div class="card-body table-responsive">    
+<div class="card card-default">
+    <div class="content-heading">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="margin-top: 20px; margin-left: 15px">Usuários Cadastrados</h3>
+            </div>
+        </div>
+
+        <div class="row" style="margin-left: 5px">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-sm btn-success" style="margin-right: 5px;" routerLink="users/form">Cadastrar novo usuário</button>
+                <button type="button" class="btn btn-sm btn-danger"  style="margin-left: 5px;" (click)="inactiveAllUsers()">Inativar todos os usuários</button>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="userFiltersFormGroup">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-default form-outline" style="margin-top: 20px; margin-left: 15px; margin-right: 15px; padding: 10px;">
+                    <h5>Filtros de usuários</h5>
+            
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="search" class="form-control" placeholder="Nome" aria-label="Search" formControlName="name"/>
+                        </div>
+            
+                        <div class="col-md-3">
+                            <input type="search" class="form-control" placeholder="CPF" aria-label="Search" formControlName="cpf"/>
+                        </div>
+            
+                        <div class="col-md-3">
+                            <input type="search" class="form-control" placeholder="Login" aria-label="Search" formControlName="login"/>
+                        </div>
+            
+                        <div class="col-md-3">
+                            <select class="form-select form-control form-select-sm fadeIn second" formControlName="status" style="margin-top: 5px; margin-bottom: 10px;">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                                <option value="Bloqueado">Bloqueado</option>
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="card-body table-responsive">  
         <ngx-datatable
             class='material'
             [columnMode]="'force'"
@@ -14,6 +59,7 @@
             [count]="usersPage.totalElements"
             [offset]="usersPage.pageNumber"
             [limit]="usersPage.size"
+            [messages]="{emptyMessage: 'Não há usuários cadastrados'}"
             (page)="getUsers($event)"
         >
             <ngx-datatable-column name="name" [sortable]="false">
@@ -85,6 +131,30 @@
                 </ng-template>
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="status" [sortable]="false">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                    Ações
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <div class="btn-group" container="body" dropdown #dropdown="bs-dropdown" [autoClose]="true">
+                        <button id="button-basic" dropdownToggle type="button" 
+                           class="btn btn-light dropdown-toggle"
+                           aria-controls="dropdown-basic">
+                           Ações <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                           role="menu" aria-labelledby="button-basic">
+                           <li role="menuitem"><a class="dropdown-item" routerLink="users/form/{{row?.id}}">Editar</a></li>
+                           <li class="divider dropdown-divider"></li>
+                           <li *ngIf="value !== 'Inativo'" role="menuitem"><a class="dropdown-item" (click)="changeUserStatus(row, 'Inactive')">Inativar</a></li>
+                           <li *ngIf="value !== 'Bloqueado'" role="menuitem"><a class="dropdown-item" (click)="changeUserStatus(row, 'Blocked')">Bloquear</a></li>
+                           <li *ngIf="value !== 'Ativo'" role="menuitem"><a class="dropdown-item" (click)="changeUserStatus(row, 'Active')">Ativar</a>
+                           </li>
+                        </ul>
+                     </div>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>    

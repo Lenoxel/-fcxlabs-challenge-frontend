@@ -1,0 +1,11 @@
+<ul class="nav nav-pills nav-fill">
+    <li *ngIf="showAllTabs" class="nav-item">
+      <a class="nav-link" [class.active]="currentRoute === '/users' || currentRoute === '/'" aria-current="page" routerLink="/users">Usuários</a>
+    </li>
+    <li *ngIf="showAllTabs" class="nav-item">
+      <a class="nav-link" [class.active]="currentRoute === '/users/form'" routerLink="/users/form">Cadastro</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="currentRoute === '/login'" routerLink="/login">{{showAllTabs ? 'Sair' : 'Login'}}</a>
+    </li>
+</ul>

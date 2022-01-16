@@ -1,7 +1,7 @@
 import { AgeScale, UserStatus } from "../enums";
 
 export interface UserSearchDto {
-  id: number;
+  id: string;
   name: string;
   login: string;
   cpf: string;

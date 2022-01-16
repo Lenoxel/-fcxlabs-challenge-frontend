@@ -10,6 +10,9 @@ const routes: Routes = [
   {
     path: 'users/form', loadChildren: () => import('./pages/user-form/user-form.module').then(m => m.UserFormModule), canActivate: [AuthGuardService],
   },
+  {
+    path: 'users/form/:id', loadChildren: () => import('./pages/user-form/user-form.module').then(m => m.UserFormModule), canActivate: [AuthGuardService],
+  },
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
   { path: 'password/forgot', loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
   { path: '**', redirectTo: '' }

@@ -2,27 +2,43 @@
     <div id="formContent">
         <div class="fadeIn first">
             <h4 style="background: #da0812; padding: 20px; color: #fff;">
-                {{actionType === 'insert' ? 'Criação de usuário' : 'Atualização de usuário'}}
+                {{userFormGroup?.value?.id ? 'Atualização de usuário' : 'Criação de usuário'}}
             </h4>
         </div>
 
-        <!-- Login Form -->
-        <form [formGroup]="userFormGroup" (ngSubmit)="insertOrUpdateUser()">
+        <!-- Formulário de cadastro de usuário -->
+        <form [formGroup]="userFormGroup" (ngSubmit)="userFormGroup?.value?.id ? updateUser() : createUser()">
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" class="fadeIn second" formControlName="name" placeholder="Nome" required>
+
+                    <div *ngIf="getFormControl('name')?.invalid && (getFormControl('name')?.dirty || getFormControl('name')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <input type="email" class="fadeIn second" formControlName="email" placeholder="Email" required>
+
+                    <div *ngIf="getFormControl('email')?.invalid && (getFormControl('email')?.dirty || getFormControl('email')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" class="fadeIn second" formControlName="login" placeholder="Login" required>
+
+                    <div *ngIf="getFormControl('login')?.invalid && (getFormControl('login')?.dirty || getFormControl('login')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <input type="text" class="fadeIn second" formControlName="cpf" placeholder="CPF" required>
+
+                    <div *ngIf="getFormControl('cpf')?.invalid && (getFormControl('cpf')?.dirty || getFormControl('cpf')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
             </div>
 
@@ -30,9 +46,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" class="fadeIn second" formControlName="phoneNumber" placeholder="Número do telefone" style="margin-top: 5px; margin-bottom: 10px;" required>
+
+                    <div *ngIf="getFormControl('phoneNumber')?.invalid && (getFormControl('phoneNumber')?.dirty || getFormControl('phoneNumber')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="fadeIn second" formControlName="birthDate" placeholder="Data de nascimento" style="margin-top: 5px; margin-bottom: 10px;" required>
+                    <input type="date" class="fadeIn second" formControlName="birthDate" placeholder="Data de nascimento (DD/MM/AAAA)" style="margin-top: 5px; margin-bottom: 10px;" required>
+
+                    <div *ngIf="getFormControl('birthDate')?.invalid && (getFormControl('birthDate')?.dirty || getFormControl('birthDate')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
             </div>
 
@@ -40,18 +64,34 @@
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" class="fadeIn second" formControlName="motherName" placeholder="Nome da mãe" style="margin-top: 5px; margin-bottom: 10px;" required>
+
+                    <div *ngIf="getFormControl('motherName')?.invalid && (getFormControl('motherName')?.dirty || getFormControl('motherName')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="fadeIn second" formControlName="status" placeholder="Status do Usuário" style="margin-top: 5px; margin-bottom: 10px;" required>
+                    <select class="form-select form-select-sm fadeIn second" formControlName="status" style="margin-top: 5px; margin-bottom: 10px;">
+                        <option value="Ativo">Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                        <option value="Bloqueado">Bloqueado</option>
+                    </select>
+
+                    <div *ngIf="getFormControl('status')?.invalid && (getFormControl('status')?.dirty || getFormControl('status')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div *ngIf="!userFormGroup?.value?.id" class="row">
                 <div class="col-md-12">
                     <input type="password" class="fadeIn second" formControlName="password" placeholder="Senha" style="margin-top: 5px; margin-bottom: 10px;" required>
-
+                    
                     <div>
                         <small style="opacity: 0.5;">{{userFormGroup?.get('password')?.value}}</small>
+                    </div>
+
+                    <div *ngIf="getFormControl('password')?.invalid && (getFormControl('password')?.dirty || getFormControl('password')?.touched || formSubmitted)">
+                        <small style="color: #da0812; opacity: 0.5;">Campo inválido</small>
                     </div>
                 </div>
             </div>

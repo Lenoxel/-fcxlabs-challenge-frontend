@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CreateUserDto, DeleteUserDto, RecoverPasswordDto, UpdateUserDto, UserDto, UserSearchDto } from 'src/app/dto';
+import { CreateUserDto, RecoverPasswordDto, UpdateUserDto, UserChangeResultDto, UserDto, UserResponseDto, UserSearchDto } from 'src/app/dto';
+import { UserStatus } from 'src/app/enums';
+import { Page } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,13 +16,18 @@ export class UsersService {
   ) {}
 
   // Serviço que retorna todos os usuários
-  getUsers(): Observable<UserDto[]> {
+  getUsers(): Observable<UserResponseDto> {
     return this.httpClient.get(`${environment.usersApiBaseUrl}`).pipe(map((data: any) => data));
   }
 
   // Serviço que retorna os usuários de forma paginada, possibilitando inserir filtros na busca
-  getUsersByFilters(userSearchDto?: UserSearchDto): Observable<UserDto | UserSearchDto[]> {
-    return this.httpClient.post(`${environment.usersApiBaseUrl}/byFilters`, userSearchDto || null).pipe(map((data: any) => data));
+  getUsersByFilters({ pageNumber, size }: Page, userSearchDto?: UserSearchDto): Observable<UserResponseDto> {
+    const params = new HttpParams().appendAll({
+      first: pageNumber * size,
+      maxResults: size,
+    });
+
+    return this.httpClient.post(`${environment.usersApiBaseUrl}/byFilters`, userSearchDto || null, { params }).pipe(map((data: any) => data));
   }
 
   // Serviço que retorna um usuário pelo seu id
@@ -43,8 +50,12 @@ export class UsersService {
     return this.httpClient.put(`${environment.usersApiBaseUrl}/password/recover`, recoverPassword).pipe(map((data: any) => data));
   }
 
-  // Serviço que exclui um usuário
-  deleteUser(id: string): Observable<DeleteUserDto> {
-    return this.httpClient.delete(`${environment.usersApiBaseUrl}/${id}`).pipe(map((data: any) => data));
+  // Serviço que altera o status de um usuário
+  changeUserStatus(id: string, status: UserStatus): Observable<UserChangeResultDto> {
+    return this.httpClient.put(`${environment.usersApiBaseUrl}/${id}/status`, { status }).pipe(map((data: any) => data));
+  }
+
+  inactiveUserBulk(): Observable<void> {
+    return this.httpClient.delete(`${environment.usersApiBaseUrl}/inactive`).pipe(map((data: any) => data));
   }
 }
