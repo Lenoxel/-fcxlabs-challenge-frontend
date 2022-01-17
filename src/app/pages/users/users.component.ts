@@ -24,10 +24,13 @@ export class UsersComponent implements OnInit {
       cpf: [''],
       login: [''],
       status: [UserStatus.Active],
-      ageRange: [null],
+      ageScale: [''],
       createdAt: [null],
+      createdAtStart: [null],
+      createdAtEnd: [null],
       updatedAt: [null],
-      ageScale: [null],
+      updatedAtStart: [null],
+      updatedAtEnd: [null],
     });
 
     this.initializeUsersPage();
@@ -63,6 +66,8 @@ export class UsersComponent implements OnInit {
     this.usersPage.loading = true;
     this.usersPage.pageNumber = pageInfo.offset;
 
+    this.handleUserFiltersForm();
+
     const userSearchDto: UserSearchDto = this.userFiltersFormGroup.getRawValue();
 
     this.usersService.getUsersByFilters(this.usersPage, userSearchDto).subscribe(
@@ -79,6 +84,50 @@ export class UsersComponent implements OnInit {
         }
       }
     );
+  }
+
+  handleUserFiltersForm(): void {
+    let createdAtStartDate = this.userFiltersFormGroup.value?.createdAtStart;
+    if (createdAtStartDate) {
+      const nowDate = new Date();
+      nowDate.setFullYear(Number(createdAtStartDate.split('-')[0]), Number(createdAtStartDate.split('-')[1]), Number(createdAtStartDate.split('-')[2]));
+      createdAtStartDate = nowDate.getTime();
+    }
+
+    let createdAtEndDate = this.userFiltersFormGroup.value?.createdAtEnd;
+    if (createdAtEndDate) {
+      const nowDate = new Date();
+      nowDate.setFullYear(Number(createdAtEndDate.split('-')[0]), Number(createdAtEndDate.split('-')[1]), Number(createdAtEndDate.split('-')[2]));
+      createdAtEndDate = nowDate.getTime();
+    }
+
+    let updatedAtStartDate = this.userFiltersFormGroup.value?.updatedAtStart;
+    if (updatedAtStartDate) {
+      const nowDate = new Date();
+      nowDate.setFullYear(Number(updatedAtStartDate.split('-')[0]), Number(updatedAtStartDate.split('-')[1]), Number(updatedAtStartDate.split('-')[2]));
+      updatedAtStartDate = nowDate.getTime();
+    }
+
+    let updatedAtEndDate = this.userFiltersFormGroup.value?.updatedAtEnd;
+    if (updatedAtEndDate) {
+      const nowDate = new Date();
+      nowDate.setFullYear(Number(updatedAtEndDate.split('-')[0]), Number(updatedAtEndDate.split('-')[1]), Number(updatedAtEndDate.split('-')[2]));
+      updatedAtEndDate = nowDate.getTime();
+    }
+
+    this.userFiltersFormGroup.patchValue({
+      createdAt: {
+        start: createdAtStartDate,
+        end: createdAtEndDate,
+      },
+      updatedAt: {
+        start: updatedAtStartDate,
+        end: updatedAtEndDate,
+      }
+    }, {
+      emitEvent: false,
+      onlySelf: true,
+    })
   }
 
   changeUserStatus(user: UserDto | UserSearchDto, status: 'Active' | 'Inactive' | 'Blocked') {

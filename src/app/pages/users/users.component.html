@@ -42,6 +42,46 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                            <label>Idade</label>
+                            <select class="form-select form-control form-select-sm fadeIn second" placeholder="Idade" formControlName="ageScale" style="margin-top: 5px; margin-bottom: 10px;">
+                                <option value="">Todas</option>
+                                <option value="Between18And26">Maior que 18 e menor que 26</option>
+                                <option value="Between25And31">Maior que 25 e menor que 31</option>
+                                <option value="Between30And36">Maior que 30 e menor que 36</option>
+                                <option value="Between35And41">Maior que 35 e menor que 41</option>
+                                <option value="GreaterThan40">Maior que 40</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Período de criação</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control fadeIn second" formControlName="createdAtStart" placeholder="Início" style="margin-top: 5px; margin-bottom: 10px;">
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control fadeIn second" formControlName="createdAtEnd" placeholder="Fim" style="margin-top: 5px; margin-bottom: 10px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Período de atualização</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control fadeIn second" formControlName="updatedAtStart" placeholder="Início" style="margin-top: 5px; margin-bottom: 10px;" >
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control fadeIn second" formControlName="updatedAtEnd" placeholder="Fim" style="margin-top: 5px; margin-bottom: 10px;" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
