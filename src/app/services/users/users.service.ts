@@ -24,7 +24,7 @@ export class UsersService {
   getUsersByFilters({ pageNumber, size }: Page, userSearchDto?: UserSearchDto): Observable<UserResponseDto> {
     const params = new HttpParams().appendAll({
       first: pageNumber * size,
-      maxResults: size,
+      size,
     });
 
     return this.httpClient.post(`${environment.usersApiBaseUrl}/byFilters`, userSearchDto || null, { params }).pipe(map((data: any) => data));

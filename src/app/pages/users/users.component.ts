@@ -5,6 +5,9 @@ import { UserDto, UserSearchDto } from 'src/app/dto';
 import { UserStatus } from 'src/app/enums';
 import { Page } from 'src/app/models/page';
 import { UsersService } from 'src/app/services/users/users.service';
+import { WordService } from 'src/app/services/word/word.service';
+import { Packer } from 'docx';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-users',
@@ -18,6 +21,7 @@ export class UsersComponent implements OnInit {
   constructor(  
     private usersService: UsersService,
     private formBuilder: FormBuilder,
+    private wordService: WordService,
   ) {
     this.userFiltersFormGroup = this.formBuilder.group({
       name: [''],
@@ -73,7 +77,7 @@ export class UsersComponent implements OnInit {
     this.usersService.getUsersByFilters(this.usersPage, userSearchDto).subscribe(
       {
         next: ({ data, count }) => {
-          this.usersPage.rows = [...this.usersPage.rows, ...(data || [])];
+          this.usersPage.rows = [...(data || [])];
           this.usersPage.totalElements = count;
           this.usersPage.totalPages = count / this.usersPage.size;
           this.usersPage.loading = false;
@@ -90,28 +94,28 @@ export class UsersComponent implements OnInit {
     let createdAtStartDate = this.userFiltersFormGroup.value?.createdAtStart;
     if (createdAtStartDate) {
       const nowDate = new Date();
-      nowDate.setFullYear(Number(createdAtStartDate.split('-')[0]), Number(createdAtStartDate.split('-')[1]), Number(createdAtStartDate.split('-')[2]));
+      nowDate.setFullYear(Number(createdAtStartDate.split('-')[0]), Number(createdAtStartDate.split('-')[1])-1, Number(createdAtStartDate.split('-')[2]));
       createdAtStartDate = nowDate.getTime();
     }
 
     let createdAtEndDate = this.userFiltersFormGroup.value?.createdAtEnd;
     if (createdAtEndDate) {
       const nowDate = new Date();
-      nowDate.setFullYear(Number(createdAtEndDate.split('-')[0]), Number(createdAtEndDate.split('-')[1]), Number(createdAtEndDate.split('-')[2]));
+      nowDate.setFullYear(Number(createdAtEndDate.split('-')[0]), Number(createdAtEndDate.split('-')[1])-1, Number(createdAtEndDate.split('-')[2]));
       createdAtEndDate = nowDate.getTime();
     }
 
     let updatedAtStartDate = this.userFiltersFormGroup.value?.updatedAtStart;
     if (updatedAtStartDate) {
       const nowDate = new Date();
-      nowDate.setFullYear(Number(updatedAtStartDate.split('-')[0]), Number(updatedAtStartDate.split('-')[1]), Number(updatedAtStartDate.split('-')[2]));
+      nowDate.setFullYear(Number(updatedAtStartDate.split('-')[0]), Number(updatedAtStartDate.split('-')[1])-1, Number(updatedAtStartDate.split('-')[2]));
       updatedAtStartDate = nowDate.getTime();
     }
 
     let updatedAtEndDate = this.userFiltersFormGroup.value?.updatedAtEnd;
     if (updatedAtEndDate) {
       const nowDate = new Date();
-      nowDate.setFullYear(Number(updatedAtEndDate.split('-')[0]), Number(updatedAtEndDate.split('-')[1]), Number(updatedAtEndDate.split('-')[2]));
+      nowDate.setFullYear(Number(updatedAtEndDate.split('-')[0]), Number(updatedAtEndDate.split('-')[1])-1, Number(updatedAtEndDate.split('-')[2]));
       updatedAtEndDate = nowDate.getTime();
     }
 
@@ -158,5 +162,22 @@ export class UsersComponent implements OnInit {
         }
       }
     );
+  }
+  
+  exportAsDocx() {
+    const page = new Page();
+    page.size = 0;
+
+    const userSearchDto: UserSearchDto = this.userFiltersFormGroup.getRawValue();
+
+    this.usersService.getUsersByFilters(page, userSearchDto).subscribe({
+      next: ({ data }) => {
+        const document = this.wordService.createDocx(data);
+
+        Packer.toBlob(document).then(buffer => {
+          fileSaver.saveAs(buffer, 'usuarios.docx');
+        });
+      },
+    })
   }
 }

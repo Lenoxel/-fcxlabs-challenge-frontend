@@ -9,7 +9,7 @@
         <div class="row" style="margin-left: 5px">
             <div class="col-md-12">
                 <button type="button" class="btn btn-sm btn-success" style="margin-right: 5px;" routerLink="users/form">Cadastrar novo usuário</button>
-                <button type="button" class="btn btn-sm btn-danger"  style="margin-left: 5px;" (click)="inactiveAllUsers()">Inativar todos os usuários</button>
+                <button type="button" class="btn btn-sm btn-danger" style="margin-left: 5px;" (click)="inactiveAllUsers()">Inativar todos os usuários</button>
             </div>
         </div>
     </div>
@@ -22,18 +22,22 @@
             
                     <div class="row">
                         <div class="col-md-3">
-                            <input type="search" class="form-control" placeholder="Nome" aria-label="Search" formControlName="name"/>
+                            <label>Nome</label>
+                            <input type="search" class="form-control" placeholder="Texto contido no nome" aria-label="Search" formControlName="name"/>
                         </div>
             
                         <div class="col-md-3">
-                            <input type="search" class="form-control" placeholder="CPF" aria-label="Search" formControlName="cpf"/>
+                            <label>CPF</label>
+                            <input type="search" class="form-control" placeholder="Números contidos no cpf" aria-label="Search" formControlName="cpf"/>
                         </div>
             
                         <div class="col-md-3">
-                            <input type="search" class="form-control" placeholder="Login" aria-label="Search" formControlName="login"/>
+                            <label>Login</label>
+                            <input type="search" class="form-control" placeholder="Texto contido no login" aria-label="Search" formControlName="login"/>
                         </div>
             
                         <div class="col-md-3">
+                            <label>Status</label>
                             <select class="form-select form-control form-select-sm fadeIn second" formControlName="status" style="margin-top: 5px; margin-bottom: 10px;">
                                 <option value="Ativo">Ativo</option>
                                 <option value="Inativo">Inativo</option>
@@ -44,7 +48,7 @@
                     </div>
 
                     <div class="row" style="margin-top: 5px;">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label>Idade</label>
                             <select class="form-select form-control form-select-sm fadeIn second" placeholder="Idade" formControlName="ageScale" style="margin-top: 5px; margin-bottom: 10px;">
                                 <option value="">Todas</option>
@@ -81,6 +85,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-2" style="margin-top: 28px;">
+                            <div class="btn-group" container="body" dropdown #dropdown="bs-dropdown" [autoClose]="true">
+                                <button id="button-export" dropdownToggle type="button" 
+                                   class="btn btn-secondary dropdown-toggle"
+                                   aria-controls="dropdown-export">
+                                   Exportar <span class="caret"></span>
+                                </button>
+                                <ul id="dropdown-export" *dropdownMenu class="dropdown-menu"
+                                   role="menu" aria-labelledby="button-export">
+                                   <li role="menuitem"><a class="dropdown-item">Excel</a></li>
+                                   <li role="menuitem"><a class="dropdown-item">PDF</a></li>
+                                   <li role="menuitem"><a class="dropdown-item" (click)="exportAsDocx()">Word</a></li>
+                                </ul>
+                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +119,7 @@
             [count]="usersPage.totalElements"
             [offset]="usersPage.pageNumber"
             [limit]="usersPage.size"
-            [messages]="{emptyMessage: 'Não há usuários cadastrados'}"
+            [messages]="{emptyMessage: 'Não há usuários para os filtros escolhidos', totalMessage: 'total'}"
             (page)="getUsers($event)"
         >
             <ngx-datatable-column name="name" [sortable]="false">
@@ -194,7 +214,7 @@
                            <li *ngIf="value !== 'Ativo'" role="menuitem"><a class="dropdown-item" (click)="changeUserStatus(row, 'Active')">Ativar</a>
                            </li>
                         </ul>
-                     </div>
+                    </div>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>    
