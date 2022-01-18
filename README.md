@@ -1,5 +1,5 @@
 # FCxLabs Challenge
-<!-- 
+
 ## Descrição
 
 O projeto foi construído utilizando Angular, um framework construído em javascript (typescript), tomando proveito das libs e built-ins que o mesmo fornece para implementar o sistema proposto.
