@@ -4,7 +4,7 @@
             <h4 style="background: #da0812; padding: 20px; color: #fff;">Acesso ao FCx Labs</h4>
         </div>
 
-        <!-- Login Form -->
+        <!-- Formulário de login -->
         <form [formGroup]="loginFormGroup" (ngSubmit)="doLogin()">
             <input type="text" class="fadeIn second" formControlName="login" placeholder="Login" style="margin-top: 30px; margin-bottom: 5px;">
             
@@ -21,7 +21,6 @@
             </div>
         </form>
     
-        <!-- Remind Passowrd -->
         <div id="formFooter">
             <a class="underlineHover" routerLink="/password/forgot">Esqueceu a sua senha?</a>
         </div>

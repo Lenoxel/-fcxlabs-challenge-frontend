@@ -10,13 +10,6 @@ export class WordService {
   constructor() { }
 
   public createDocx(usersList: UserDto[] | UserSearchDto[]): Document {
-    // const heading = new Paragraph({
-    //   text: 'Usuários cadastrados',
-    //   heading: HeadingLevel.TITLE,
-    // });
-
-    // const sections = [{ children: [heading] }];
-
     const sections = [];
 
     for (const user of usersList) {

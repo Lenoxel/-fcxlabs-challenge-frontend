@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {  RecoverPasswordDto } from 'src/app/dto';
 import { UsersService } from 'src/app/services/users/users.service';
-import { UtilService } from 'src/app/services/util/util.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,6 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private usersService: UsersService,
   ) {
+    // Formulário de recuperação/alteração de senha do usuário
     this.recoverPasswordFormGroup = this.formBuilder.group({
       name: ['', Validators.required],
       cpf: ['', Validators.required],
@@ -29,8 +29,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   recoverPassword() {
     this.formSubmitted = true;

@@ -22,6 +22,7 @@ export class UserFormComponent implements OnInit {
     private usersService: UsersService,
     private activatedRoute: ActivatedRoute,
   ) {
+    // Formulário de cadastro de um usuário
     this.userFormGroup = this.formBuilder.group({
       id: [null],
       name: ['', Validators.required],
@@ -38,9 +39,9 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initUserToUpdate(this.activatedRoute?.snapshot?.paramMap?.get('id'));
-  
   }
 
+  // Verifica se é edição (um id é enviado da tela de usuários) ou se é criação de um usuário
   initUserToUpdate(userId: string | null) {
     if (userId) {
       this.usersService.getUserById(userId).subscribe(
@@ -143,6 +144,7 @@ export class UserFormComponent implements OnInit {
     );
   }
 
+  // Trata alguns atributos do usuário antes de enviar o objeto para ser salvo no backend
   handleUserFormGroup(): void {
     const stringPhoneNumber = this.userFormGroup.value?.phoneNumber as string;
     const formattedPhoneNumber = stringPhoneNumber.startsWith('+55') ? stringPhoneNumber : `+55${stringPhoneNumber}`;

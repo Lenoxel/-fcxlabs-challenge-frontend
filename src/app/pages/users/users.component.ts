@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private wordService: WordService,
   ) {
+    // Formulário dos filtros
     this.userFiltersFormGroup = this.formBuilder.group({
       name: [''],
       cpf: [''],
@@ -36,11 +37,11 @@ export class UsersComponent implements OnInit {
       updatedAtStart: [null],
       updatedAtEnd: [null],
     });
-
-    this.initializeUsersPage();
   }  
   
   ngOnInit() {  
+    this.initializeUsersPage();
+
     this.getUsers({ offset: 0 });  
 
     this.userFiltersFormGroupChangeObserver();
@@ -52,6 +53,7 @@ export class UsersComponent implements OnInit {
     this.usersPage.size = 10;
   }
 
+  // Observer para ouvir as mudanças de quaisquer filtros
   userFiltersFormGroupChangeObserver(): void {
     this.userFiltersFormGroup.valueChanges.pipe(
       debounceTime(600),
@@ -64,7 +66,6 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
 
   getUsers(pageInfo: any) {
     this.usersPage.loading = true;
@@ -90,6 +91,7 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  // Trata alguns filtros antes de enviá-los para o backend
   handleUserFiltersForm(): void {
     let createdAtStartDate = this.userFiltersFormGroup.value?.createdAtStart;
     if (createdAtStartDate) {

@@ -22,11 +22,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private utilService: UtilService,
   ) {
+    // Formulário de login
     this.loginFormGroup = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],
     });
 
+    // Ao entrar na tela de login, remove o token (jwt) do usuário do local storage
     this.utilService.setJWT('');
   }
 

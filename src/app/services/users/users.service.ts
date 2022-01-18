@@ -55,6 +55,7 @@ export class UsersService {
     return this.httpClient.put(`${environment.usersApiBaseUrl}/${id}/status`, { status }).pipe(map((data: any) => data));
   }
 
+  // Serviço que exclui logicamente (inativa) todos os usuários do sistema
   inactiveUserBulk(): Observable<void> {
     return this.httpClient.delete(`${environment.usersApiBaseUrl}/inactive`).pipe(map((data: any) => data));
   }
